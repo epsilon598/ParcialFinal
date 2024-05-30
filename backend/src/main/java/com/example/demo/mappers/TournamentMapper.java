@@ -6,7 +6,6 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class TournamentMapper {
-
     public TournamentDTO toDTO(Tournament tournament) {
         TournamentDTO dto = new TournamentDTO();
         dto.setId(tournament.getId());

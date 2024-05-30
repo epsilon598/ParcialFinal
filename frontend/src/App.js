@@ -14,13 +14,6 @@ function App() {
       <BrowserRouter>
         <div className="container">
           <Routes>
-            {/* <Route exact path="/" element={<Login />}></Route>
-            <Route path="/login" element={<Login />}></Route>
-            <Route path='/register' element={<CreateUser />}></Route>
-            <Route path='/users/:userId/notes' element={<Main />}></Route>
-            <Route path='/users/:userId/addNote' element={<NoteCreate />}></Route>
-            <Route path="/users/:userId/notes/:noteId" element={<NoteDetail />} />
-            <Route path="/users/:userId" element={<Profile />} /> */}
             <Route exact path="/" element={<Create />}></Route>
             <Route path="/login" element={<Login />}></Route>
             <Route path="/register" element={<Create />}></Route>

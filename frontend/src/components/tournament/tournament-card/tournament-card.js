@@ -94,7 +94,7 @@ function TournamentCard({ id, name, deadline, image, maxParticipants, currentPar
                     <Card.Body>
                         <Card.Title>{name}</Card.Title>
                         <Card.Text>Fecha límite: {deadline}</Card.Text>
-                        <Card.Text>Cupos disponibles: {maxParticipants - currentParticipants}</Card.Text>
+                        <Card.Text>Maximo de participantes: {maxParticipants}</Card.Text>
                         <div className="button-group">
                             {!registered && (
                                 <Button variant="primary" className="mr-2" onClick={handleRegister}>Registrar</Button>
