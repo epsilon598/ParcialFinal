@@ -10,7 +10,7 @@ const TournamentList = ({ tournaments }) => {
         <Container className="tournaments-list-container">
             <Row className="justify-content-center">
                 {tournaments.map(tournament => (
-                    <Col key={tournament.id} xs={12} md={6} className="mb-3">
+                    <Col key={tournament.id} className="mb-3">
                         <TournamentCard {...tournament} />
                     </Col>
                 ))}

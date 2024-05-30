@@ -7,53 +7,38 @@ import { Link, useNavigate } from 'react-router-dom';
 import "./create.scss";
 
 function Create() {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [name, setName] = useState("");
+    const [formData, setFormData] = useState({ email: "", password: "", name: "" });
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
     const navigate = useNavigate();
 
-    const onEmailChange = (e) => {
-        setEmail(e);
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData({ ...formData, [name]: value });
     };
 
-    const onPasswordChange = (e) => {
-        setPassword(e);
-    };
-
-    const onNameChange = (e) => {
-        setName(e);
-    };
-
-
-    function createCliente() {
-        let _email = email;
-        let _password = password;
-        let _name = name;
-
-        fetch('http://localhost:8080/api/v1/users', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ email: _email, name: _name, password: _password }),
-        }).then(response => {
-            if (response.ok) {
-                return response.json();
-            } else {
-                throw new Error('Failed to create user');
-            }
-        }).then(data => {
+    const createCliente = async () => {
+        try {
+            setLoading(true);
+            const response = await fetch('http://localhost:8080/api/v1/users', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(formData),
+            });
+            if (!response.ok) throw new Error('Failed to create user');
+            const data = await response.json();
             localStorage.setItem("user", data.id);
             localStorage.setItem("user-complete", JSON.stringify(data));
-            navigate(`/users/${data.id}/tournaments`);
-        }).catch(error => {
-            console.error('There was a problem with the fetch operation:', error);
-        });
-    }
+            navigate(`/tournaments`);
+        } catch (error) {
+            setError(error.message);
+        } finally {
+            setLoading(false);
+        }
+    };
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        e.stopPropagation();
         createCliente();
     };
 
@@ -71,7 +56,8 @@ function Create() {
                                     type="text"
                                     placeholder="Please enter your name"
                                     minLength={6}
-                                    onChange={(e) => onNameChange(e.target.value)}
+                                    name="name"
+                                    onChange={handleChange}
                                 />
                                 <Form.Control.Feedback type="invalid">
                                     Please enter a Name
@@ -87,7 +73,8 @@ function Create() {
                                     type="email"
                                     placeholder="Please enter your email"
                                     minLength={6}
-                                    onChange={(e) => onEmailChange(e.target.value)}
+                                    name="email"
+                                    onChange={handleChange}
                                 />
                                 <Form.Control.Feedback type="invalid">
                                     Please enter a valid email
@@ -102,17 +89,20 @@ function Create() {
                                 type="password"
                                 placeholder="Please enter your password"
                                 minLength={8}
-                                onChange={(e) => onPasswordChange(e.target.value)}
+                                name="password"
+                                onChange={handleChange}
                             />
                             <Form.Control.Feedback type="invalid">
                                 Please choose a password. Minimum 8 characters!
                             </Form.Control.Feedback>
-                            <InputGroup hasValidation></InputGroup>
                         </Form.Group>
                         <br />
                         <div className="d-flex justify-content-center">
-                            <Button type="submit">Register</Button>
+                            <Button type="submit" disabled={loading}>
+                                {loading ? "Registering..." : "Register"}
+                            </Button>
                         </div>
+                        {error && <div className="error-message">{error}</div>}
                     </Form>
                     <br />
                     <div className="text-center">

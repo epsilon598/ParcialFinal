@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import TournamentList from "../tournament/tournament-list/tournament-list";
+import NavBar from '../navbar/navbar';
 import "./main.scss";
 
 function Main() {
     const [tournaments, setTournaments] = useState([]);
+    const [filteredTournaments, setFilteredTournaments] = useState([]);
     const userId = localStorage.getItem('user');
 
     useEffect(() => {
@@ -31,6 +33,7 @@ function Main() {
                     }
                 }));
                 setTournaments(tournamentsWithParticipants);
+                setFilteredTournaments(tournamentsWithParticipants); // Initialize filteredTournaments
             } catch (error) {
                 console.error("There was an error fetching the tournaments!", error);
             }
@@ -39,9 +42,23 @@ function Main() {
         fetchTournaments();
     }, [userId, tournaments]);
 
+    const handleSearch = (query) => {
+        if (!query) {
+            setFilteredTournaments(tournaments);
+        } else {
+            const filtered = tournaments.filter(tournament =>
+                tournament.name.toLowerCase().includes(query.toLowerCase())
+            );
+            setFilteredTournaments(filtered);
+        }
+    };
+
     return (
         <div>
-            <TournamentList tournaments={tournaments}></TournamentList>
+            <NavBar handleSearch={handleSearch}></NavBar>
+            <TournamentList tournaments={filteredTournaments}></TournamentList>
         </div>
     );
-} export default Main;
+}
+
+export default Main;

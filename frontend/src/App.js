@@ -4,6 +4,7 @@ import Login from "./components/login/signin/signin";
 import Main from "./components/main/main";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.scss';
+import UserDetail from "./components/user/user-detail/user-detail";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
             <Route path="/login" element={<Login />}></Route>
             <Route path="/register" element={<Create />}></Route>
             <Route path='/tournaments' element={<Main />}></Route>
+            <Route path='/users/:userid' element={<UserDetail />}></Route>
 
           </Routes>
         </div>
