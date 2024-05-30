@@ -69,10 +69,10 @@ public class UserService {
         User user = userRepository.findByEmail(email);
 
         if (user == null) {
-            throw new ResourceNotFoundException(User.class, Long.valueOf(0));
+            throw new ResourceNotFoundException(User.class, email);
         }
 
-        if (user != null && passwordEncoder.matches(rawPassword, user.getPassword())) {
+        if (passwordEncoder.matches(rawPassword, user.getPassword())) {
             return userMapper.toDTO(user);
         }
 

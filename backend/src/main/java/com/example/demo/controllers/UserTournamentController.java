@@ -1,7 +1,6 @@
 package com.example.demo.controllers;
 
 import com.example.demo.dtos.UserDTO;
-import com.example.demo.dtos.UserTournamentDTO;
 import com.example.demo.mappers.UserMapper;
 import com.example.demo.models.User;
 import com.example.demo.services.UserTournamentService;
