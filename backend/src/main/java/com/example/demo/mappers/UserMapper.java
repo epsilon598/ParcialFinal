@@ -3,12 +3,17 @@ package com.example.demo.mappers;
 import com.example.demo.dtos.UserDTO;
 import com.example.demo.models.Tournament;
 import com.example.demo.models.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.stream.Collectors;
 
 @Component
 public class UserMapper {
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     public UserDTO toDTO(User user) {
         UserDTO dto = new UserDTO();
         dto.setId(user.getId());
@@ -47,8 +52,8 @@ public class UserMapper {
             existingUser.setRole(User.Role.valueOf(dto.getRole()));
         }
 
-        if(dto.getPassword() != null){
-            existingUser.setPassword(dto.getPassword());
+        if(dto.getNewPassword() != null && passwordEncoder.matches(dto.getPassword(), existingUser.getPassword())){
+            existingUser.setPassword(passwordEncoder.encode(dto.getNewPassword()));
         }
 
         return existingUser;
