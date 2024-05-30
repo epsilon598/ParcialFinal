@@ -30,7 +30,7 @@ public class UserDTO {
     private String newPassword;
 
     @NotBlank(message = "Role is mandatory")
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    //@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String role;
 
     private Set<Long> tournamentIds;

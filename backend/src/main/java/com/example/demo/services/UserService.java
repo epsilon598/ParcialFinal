@@ -3,14 +3,16 @@ package com.example.demo.services;
 import com.example.demo.dtos.UserDTO;
 import com.example.demo.exceptions.ResourceNotFoundException;
 import com.example.demo.mappers.UserMapper;
+import com.example.demo.models.Tournament;
 import com.example.demo.models.User;
 import com.example.demo.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Iterator;
 import java.util.List;
-import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class UserService {
@@ -78,6 +80,14 @@ public class UserService {
     }
 
     public String deleteUser(Long id) {
+        User user = util.getUser(id);
+        Set<Tournament> tournaments = user.getTournaments();
+        Iterator<Tournament> iterator = tournaments.iterator();
+        while (iterator.hasNext()) {
+            Tournament tournament = iterator.next();
+            iterator.remove();
+            tournament.getUsers().remove(user);
+        }
         userRepository.deleteById(id);
         return "User " + id + " deleted";
     }

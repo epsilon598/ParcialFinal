@@ -36,13 +36,18 @@ public class User {
     private Role role;
 
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_tournaments",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "tournament_id")
     )
     private Set<Tournament> tournaments = new HashSet<>();
+
+    public void removeTournament(Tournament tournament){
+        this.tournaments.remove(tournament);
+        tournament.getUsers().remove(this);
+    }
 
     @PrePersist
     public void prePersist() {
