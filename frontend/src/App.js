@@ -20,7 +20,7 @@ function App() {
             <Route path='/tournaments' element={<Main />}></Route>
             <Route path='/users/:userid' element={<UserDetail />}></Route>
             <Route path="/create-tournament" element={<CreateTournament />} />
-            <Route path="/edit-tournament/:tournamentId" element={<EditTournament />} />
+            <Route path="/edit-tournament/:tournamentId" element={<EditTournament />} /> s
           </Routes>
         </div>
       </BrowserRouter>
