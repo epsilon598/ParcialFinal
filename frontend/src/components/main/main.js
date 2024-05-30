@@ -7,6 +7,7 @@ function Main() {
     const [tournaments, setTournaments] = useState([]);
     const [filteredTournaments, setFilteredTournaments] = useState([]);
     const userId = localStorage.getItem('user');
+    const userRole = JSON.parse(localStorage.getItem('user-complete')).role;
 
     useEffect(() => {
         const fetchTournaments = async () => {
@@ -56,7 +57,7 @@ function Main() {
     return (
         <div>
             <NavBar handleSearch={handleSearch}></NavBar>
-            <TournamentList tournaments={filteredTournaments}></TournamentList>
+            <TournamentList tournaments={filteredTournaments} userRole={userRole}></TournamentList>
         </div>
     );
 }
